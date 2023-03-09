@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <app-game-control (tickEvent)="onTickEvent($event)"></app-game-control>
+  </div>
+</div>
+
+<div *ngFor="let number of numbers">
+  <div *ngIf="number%2===0; else oddNumber">
+    <app-even
+      [number]="number"></app-even>
+  </div>
+  <ng-template #oddNumber>
+    <app-odd
+      [number]="number"></app-odd>
+  </ng-template>
+</div>
