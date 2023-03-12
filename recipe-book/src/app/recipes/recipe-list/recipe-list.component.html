@@ -1,13 +1,16 @@
 <div class="row">
   <div class="col-xs-12">
-    <button class="btn btn-success">New Recipe</button>
+    <button (click)="onNewRecipe()" class="btn btn-success">New Recipe</button>
   </div>
 </div>
 <hr>
 <div class="row">
   <div class="col-xs-12">
+    <!-- TODO: Why don't we pass routerLink here? -->
     <app-recipe-item
       *ngFor="let recipe of recipes; index as i;"
-      [recipe]="recipe"></app-recipe-item>
+      [recipe]="recipe"
+      [id]="i">
+    </app-recipe-item>
   </div>
 </div>
