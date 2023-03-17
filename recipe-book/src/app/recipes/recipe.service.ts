@@ -2,11 +2,13 @@ import {Injectable} from '@angular/core';
 import {Recipe} from "./recipe.model";
 import {Ingredient} from "../shared/ingredient";
 import {ShoppingListService} from "../shopping-list/shopping-list.service";
+import {Subject} from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecipeService {
+  recipeListChange = new Subject<Recipe[]>();
   private recipes: Recipe[] = [
     new Recipe(
       'A test recipe',
@@ -21,21 +23,39 @@ export class RecipeService {
       'This is simply a test',
       'https://post.healthline.com/wp-content/uploads/2018/04/steak-meat-1200x628-facebook-1200x628.jpg',
       [
-        new Ingredient('Buns',2),
+        new Ingredient('Buns', 2),
         new Ingredient('Meat', 1)
       ]),
   ];
 
-  constructor(private shoppingListService: ShoppingListService) { }
+  constructor(private shoppingListService: ShoppingListService) {
+  }
 
   // just a copy
   getRecipes() {
     return this.recipes.slice();
   }
 
-  addIngredientsToShoppingList(ingredients: Ingredient[]){
-      this.shoppingListService.addIngredients(ingredients)
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+    this.shoppingListService.addIngredients(ingredients)
   }
 
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipeListChange.next(this.recipes.slice());
+  }
 
+  updateRecipe(index: number, recipe: Recipe) {
+    this.recipes[index] = recipe;
+    this.recipeListChange.next(this.recipes.slice());
+  }
+
+  getRecipe(id: number) {
+    return this.recipes[id];
+  }
+
+  deleteRecipe(id: number) {
+    this.recipes.splice(id,1);
+    this.recipeListChange.next(this.recipes.slice());
+  }
 }
