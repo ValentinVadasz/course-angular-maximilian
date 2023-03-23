@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChild} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {NgForm} from "@angular/forms";
 import {AuthResponseData, AuthService} from "./auth.service";
 import {Observable, Subscription} from "rxjs";
@@ -10,7 +10,7 @@ import {AlertComponent} from "../shared/alert/alert.component";
   selector: 'app-auth',
   templateUrl: './auth.component.html'
 })
-export class AuthComponent implements OnDestroy {
+export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
   error: string = null;
@@ -56,16 +56,13 @@ export class AuthComponent implements OnDestroy {
     form.reset();
   }
 
-  ngOnDestroy(): void {
-    this.closeSubscription.unsubscribe();
-  }
-
   private showErrorAlert(errorMessage: string) {
     this.alertHost.viewContainerRef.clear();
     const componentRef = this.alertHost.viewContainerRef.createComponent(AlertComponent);
 
     componentRef.instance.message = errorMessage;
     this.closeSubscription = componentRef.instance.close.subscribe(() => {
+      this.closeSubscription.unsubscribe();
       this.alertHost.viewContainerRef.clear();
     });
   }
