@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Animations</h1>
+      <button (click)="onAnimate()" class="btn btn-primary">Animate!</button>
+      <button (click)="onShrink()" class="btn btn-primary">Shrink!</button>
+      <hr>
+      <div (@divState.done)="animationDone($event)"
+           (@divState.start)="animationStarted($event)"
+           [@divState]="state"
+           style="width: 100px; height: 100px;">
+      </div>
+      <br>
+      <div [@wildState]="wildState"
+           style="width: 100px; height: 100px;"></div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <input #input type="text">
+      <button (click)="onAdd(input.value)" class="btn btn-primary">Add Item!</button>
+      <hr>
+      <ul class="list-group">
+        <li
+          (click)="onDelete(item)"
+          *ngFor="let item of list"
+          [@list1]
+          class="list-group-item">
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-group">
+        <li
+          (click)="onDelete(item)"
+          *ngFor="let item of list"
+          [@list2]
+          class="list-group-item">
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
